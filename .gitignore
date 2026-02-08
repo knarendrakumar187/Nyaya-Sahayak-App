@@ -1,0 +1,40 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# System
+thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Vector databases & Embeddings
+data/vector_store/
+blobs/
+faiss_index/
+chroma/
+
+# Large Data Files
+*.faiss
+*.index
+*.bin
+*.pkl
+data/raw/*.pdf
+data/processed/
+
+# Misc
+*.pdf
