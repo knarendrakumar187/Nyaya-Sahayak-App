@@ -143,9 +143,26 @@ def get_controller():
 
 def main():
     # Startup Safety Check
-    if not settings.GROQ_API_KEY and not settings.GOOGLE_API_KEY:
-        st.error("🚨 CRITICAL ERROR: No API Key found. Please set GROQ_API_KEY in .env file.")
+    # Startup Safety Check & Secrets Loading
+    # 1. Try environment variable
+    api_key = os.getenv("GROQ_API_KEY")
+    
+    # 2. Try Streamlit Secrets (for Cloud Deployment)
+    if not api_key and "GROQ_API_KEY" in st.secrets:
+        api_key = st.secrets["GROQ_API_KEY"]
+        # Update settings singleton so other modules can use it
+        settings.GROQ_API_KEY = api_key
+        # Also set model if available
+        if "GROQ_MODEL" in st.secrets:
+            settings.GROQ_MODEL = st.secrets["GROQ_MODEL"]
+            
+    if not api_key and not settings.GOOGLE_API_KEY:
+        st.error("🚨 CRITICAL ERROR: No API Key found. Please set GROQ_API_KEY in .env file or Streamlit Secrets.")
         st.stop()
+    
+    # Ensure settings has the key if we found it in secrets
+    if api_key and not settings.GROQ_API_KEY:
+        settings.GROQ_API_KEY = api_key
 
     _ensure_data_ready()
     

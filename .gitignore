@@ -33,8 +33,9 @@ chroma/
 *.index
 *.bin
 *.pkl
-data/raw/*.pdf
 data/processed/
 
-# Misc
+# Misc - Ignore generic PDFs but allow the critical source PDF
 *.pdf
+!data/raw/BNS.pdf
+
